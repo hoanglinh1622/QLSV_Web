@@ -1,0 +1,4 @@
+﻿Id,UserId,FullName,Email,Phone,DateOfBirth,Address,StudentCode,EnrollmentDate
+749700c4-3c74-404f-815d-6a774d641618,8a5d5041-5f08-4b9b-b7b2-59da9060e75a,Hoàng Nhật Linh,hoanglinhk47@gmail.com,0348416657,5/16/2005 12:00:00 AM,Hà Tĩnh,SV20251016230139,10/16/2025 11:01:39 PM
+2978c328-d775-44a8-9f02-4ddeb08dce90,18bd9ae2-6e39-459a-8158-fe9d3b455596,Nguyễn Văn An,nguyenvanan@gmail.com,0901234567,5/15/2003 12:00:00 AM,"123 Đường ABC, Quận 1, TP.HCM",SV20230001,10/16/2025 10:57:49 PM
+28b14101-dcc6-4150-9e9c-812d5c375ee1,f66dd5bd-2fd5-4598-a1ab-1cafe52fad05,Nguyễn Văn Hoàng,hoang123@gmail.com,0987123654,10/16/2005 12:00:00 AM,TP Hồ Chí Minh,SV20251017142138,10/17/2025 2:21:38 PM

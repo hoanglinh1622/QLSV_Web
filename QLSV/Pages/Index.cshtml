@@ -1,0 +1,68 @@
+﻿@page
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">🎓 Hệ thống Quản lý Sinh viên</h1>
+        <p class="lead">Chào mừng đến với hệ thống quản lý sinh viên và khóa học</p>
+        <hr class="my-4" />
+        
+        @if (HttpContext.Session.GetString("UserId") != null)
+        {
+            var role = HttpContext.Session.GetString("Role");
+            
+            @if (role == "Admin")
+            {
+                <p>Bạn đang đăng nhập với vai trò <strong>Quản trị viên</strong></p>
+                <a class="btn btn-primary btn-lg" asp-page="/Admin/Dashboard" role="button">Vào bảng điều khiển</a>
+            }
+            else
+            {
+                <p>Bạn đang đăng nhập với vai trò <strong>Sinh viên</strong></p>
+                <a class="btn btn-primary btn-lg" asp-page="/Student/Dashboard" role="button">Xem thông tin cá nhân</a>
+            }
+        }
+        else
+        {
+            <p>Vui lòng đăng nhập để sử dụng hệ thống</p>
+            <div class="mt-4">
+                <a class="btn btn-primary btn-lg me-2" asp-page="/Login" role="button">Đăng nhập</a>
+                <a class="btn btn-success btn-lg" asp-page="/Register" role="button">Đăng ký</a>
+            </div>
+        }
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h3>👨‍🎓</h3>
+                    <h5 class="card-title">Quản lý Sinh viên</h5>
+                    <p class="card-text">Đăng ký tài khoản, cập nhật thông tin cá nhân và theo dõi quá trình học tập</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h3>📚</h3>
+                    <h5 class="card-title">Danh sách Khóa học</h5>
+                    <p class="card-text">Xem thông tin các khóa học, giảng viên, thời gian và số lượng chỗ còn trống</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h3>⚙️</h3>
+                    <h5 class="card-title">Quản trị hệ thống</h5>
+                    <p class="card-text">Quản lý toàn bộ sinh viên, khóa học và theo dõi hoạt động của hệ thống</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

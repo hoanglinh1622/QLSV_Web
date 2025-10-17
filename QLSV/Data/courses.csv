@@ -1,0 +1,10 @@
+﻿Id,CourseName,CourseCode,Description,Credits,Instructor,MaxStudents,EnrolledStudents,StartDate,EndDate,IsActive,IsCompleted
+4fe96881-a763-4869-a4f8-03695f1eac6b,Vật Lý,ABCDEFG,Khúc xạ ánh sáng,4,Trần Văn A,30,1,10/1/2025 12:00:00 AM,12/1/2025 12:00:00 AM,True,True
+26cfaf08-8de2-4c45-9e4c-ef824948b60e,Toán Học,ASDFDFG,Đạo Hàm,4,Nguyễn Văn A,25,2,10/15/2025 12:00:00 AM,12/31/2025 12:00:00 AM,True,False
+9c9ee5af-cf7a-415b-879c-7d53c165d730,Lịch Sử,SDFGHJK,Lịch sử Việt Nam,3,Lê Văn Tê,30,2,10/1/2025 12:00:00 AM,12/1/2025 12:00:00 AM,True,False
+9eaa2fbe-64bc-4fa6-a566-5346c46ed0e3,Địa Lý,MNBVDHS,Địa Lý Việt Nam,3,Trần Văn Tuấn,35,0,10/21/2025 12:00:00 AM,11/30/2025 12:00:00 AM,True,False
+ad217003-8c7a-4838-9a08-322af82ef8a1,Tin Học,CVBHVH,Lập trình cơ bản,5,Nguyễn Văn Qunag,40,0,11/1/2025 12:00:00 AM,1/15/2026 12:00:00 AM,True,False
+aad4eff6-0799-40ad-8f8e-06d2b83ca3f6,Tiếng Anh,NBVJXDH,,4,Nguyễn Kim Nhung,30,0,10/25/2025 12:00:00 AM,12/25/2025 12:00:00 AM,True,False
+1d5e30e5-2589-4d36-b072-adf06dd22622,Hóa Học,MNBVCDF,Phản ứng hóa học,4,Nguyễn Sỹ Hoàn,25,1,10/17/2025 12:00:00 AM,12/20/2025 12:00:00 AM,True,False
+14ca85f2-4918-4f67-a6c6-0247089a9579,Ngữ Văn,LKJHGFDS,Văn học đương đại,4,Nguyễn Thị Ngọc,30,1,10/20/2025 12:00:00 AM,12/10/2025 12:00:00 AM,True,False
+bb0a1a05-d91b-459d-9eef-49fe614f8111,Lưu trữ dữ liệu,VDHFSSDF,,1,Nguyễn Thị Loan,30,1,10/17/2025 12:00:00 AM,10/18/2025 12:00:00 AM,True,False

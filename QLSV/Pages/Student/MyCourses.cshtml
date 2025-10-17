@@ -1,0 +1,211 @@
+﻿@page
+@model StudentManagement.Pages.Student.MyCoursesModel
+@{
+    ViewData["Title"] = "Khóa học của tôi";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<style>
+    body {
+        background-color: #f8f9fc;
+    }
+
+    .card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header {
+        font-weight: 600;
+    }
+
+    .course-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 0.8em;
+        border-radius: 8px;
+    }
+
+    .stats-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stats-card h3 {
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        border-radius: 16px;
+        padding: 20px 30px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+    <!-- Header -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-0"><i class="bi bi-journal-bookmark"></i> Khóa học của tôi</h2>
+            <p class="mb-0 text-light">Theo dõi tiến trình học tập của bạn tại đây</p>
+        </div>
+        <div>
+            <a asp-page="/Student/Dashboard" class="btn btn-outline-light me-2">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+            <a asp-page="/Student/Courses" class="btn btn-light text-primary fw-bold">
+                <i class="bi bi-plus-circle"></i> Đăng ký khóa học
+            </a>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm">
+            <i class="bi bi-check-circle-fill me-2"></i> @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Nếu chưa có khóa học -->
+    @if (Model.EnrolledCourses.Count == 0)
+    {
+        <div class="alert alert-info p-4 text-center shadow-sm">
+            <h5 class="fw-bold mb-2"><i class="bi bi-info-circle"></i> Bạn chưa đăng ký khóa học nào</h5>
+            <p>Hãy vào 
+                <a asp-page="/Student/Courses" class="alert-link fw-semibold">Danh sách khóa học</a> 
+                để đăng ký ngay hôm nay!
+            </p>
+        </div>
+    }
+    else
+    {
+        <!-- Danh sách khóa học -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-list-check me-2"></i> Đã đăng ký (@Model.EnrolledCourses.Count khóa học)</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var item in Model.EnrolledCourses)
+                    {
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card course-card border-0 shadow-sm h-100">
+                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1 text-primary">@item.Course.CourseName</h5>
+                                        <small class="text-muted">@item.Course.CourseCode</small>
+                                    </div>
+                                    <i class="bi bi-bookmark-star text-warning fs-5"></i>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-3">@item.Course.Description</p>
+
+                                    <div class="mb-2"><strong>👨‍🏫 Giảng viên:</strong> @item.Course.Instructor</div>
+                                    <div class="mb-2"><strong>📖 Tín chỉ:</strong> @item.Course.Credits</div>
+                                    <div class="mb-2"><strong>📅 Lịch học:</strong> 
+                                        @item.Course.StartDate.ToString("dd/MM/yyyy") - @item.Course.EndDate.ToString("dd/MM/yyyy")
+                                    </div>
+                                    <div class="mb-2"><strong>🕒 Ngày đăng ký:</strong> 
+                                        @item.Enrollment.EnrollmentDate.ToString("dd/MM/yyyy HH:mm")
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <strong>📌 Trạng thái:</strong>
+                                        <span class="course-status">
+                                            @switch (item.Enrollment.Status)
+                                            {
+                                                case "Active":
+                                                    <span class="badge bg-success"><i class="bi bi-play-circle"></i> Đang học</span>
+                                                    break;
+                                                case "Completed":
+                                                    <span class="badge bg-primary"><i class="bi bi-check-circle"></i> Hoàn thành</span>
+                                                    break;
+                                                case "Dropped":
+                                                    <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> Đã hủy</span>
+                                                    break;
+                                                default:
+                                                    <span class="badge bg-info">@item.Enrollment.Status</span>
+                                                    break;
+                                            }
+                                        </span>
+                                    </div>
+
+                                    @if (item.Enrollment.Grade.HasValue)
+                                    {
+                                        <div class="mb-2">
+                                            <strong>📊 Điểm:</strong> 
+                                            <span class="badge bg-info text-dark fs-6 px-3 py-2">
+                                                <i class="bi bi-bar-chart"></i> @item.Enrollment.Grade.Value
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card stats-card text-white bg-success">
+                    <div class="card-body">
+                        <h6><i class="bi bi-play-fill"></i> Đang học</h6>
+                        <h3>@Model.EnrolledCourses.Count(x => x.Enrollment.Status == "Active")</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stats-card text-white bg-primary">
+                    <div class="card-body">
+                        <h6><i class="bi bi-check-circle"></i> Hoàn thành</h6>
+                        <h3>@Model.EnrolledCourses.Count(x => x.Enrollment.Status == "Completed")</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stats-card text-white bg-info">
+                    <div class="card-body">
+                        <h6><i class="bi bi-award"></i> Tổng tín chỉ đang học</h6>
+                        <h3>@Model.EnrolledCourses.Where(x => x.Enrollment.Status == "Active").Sum(x => x.Course.Credits)</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

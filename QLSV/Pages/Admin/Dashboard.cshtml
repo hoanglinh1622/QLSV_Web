@@ -1,0 +1,129 @@
+﻿@page
+@model StudentManagement.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Quản trị - Trang chủ";
+}
+
+<style>
+    body {
+        background-color: #f9fafc;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(90deg, #007bff 0%, #6610f2 100%);
+        color: white;
+        border-radius: 12px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-card {
+        border: none;
+        border-radius: 16px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+        font-size: 2.2rem;
+        opacity: 0.85;
+        margin-right: 12px;
+    }
+
+    .list-group-item {
+        border: none;
+        border-radius: 8px;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .list-group-item:hover {
+        background-color: #f1f1f1;
+        transform: translateX(5px);
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap">
+        <div class="mb-2 mb-md-0">
+            <h2 class="mb-0 fw-bold">Bảng điều khiển Quản trị viên</h2>
+            <p class="mb-0 opacity-75">Tổng quan hệ thống sinh viên và khóa học</p>
+        </div>
+
+        <div class="text-end">
+            <span class="me-3 text-light">
+                👋 Xin chào, Chúc bạn có một ngày làm việc vui vẻ!
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Tổng số sinh viên -->
+        <div class="col-md-4">
+            <div class="card text-white bg-primary dashboard-card">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-people-fill card-icon"></i>
+                    <div>
+                        <h6 class="card-title text-uppercase mb-1">Tổng số sinh viên</h6>
+                        <h2 class="fw-bold mb-2">@Model.TotalStudents</h2>
+                        <a asp-page="/Admin/Students" class="text-white text-decoration-underline small">Xem chi tiết →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tổng số khóa học -->
+        <div class="col-md-4">
+            <div class="card text-white bg-success dashboard-card">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-book-fill card-icon"></i>
+                    <div>
+                        <h6 class="card-title text-uppercase mb-1">Tổng số khóa học</h6>
+                        <h2 class="fw-bold mb-2">@Model.TotalCourses</h2>
+                        <a asp-page="/Admin/Courses" class="text-white text-decoration-underline small">Xem chi tiết →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khóa học đang hoạt động -->
+        <div class="col-md-4">
+            <div class="card text-white bg-info dashboard-card">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi bi-lightning-charge-fill card-icon"></i>
+                    <div>
+                        <h6 class="card-title text-uppercase mb-1">Khóa học đang hoạt động</h6>
+                        <h2 class="fw-bold mb-2">@Model.ActiveCourses</h2>
+                        <a asp-page="/Admin/Courses" class="text-white text-decoration-underline small">Xem chi tiết →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu quản lý -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-white border-0">
+                    <h5 class="fw-semibold mb-0">📋 Menu Quản lý</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a asp-page="/Admin/Students" class="list-group-item list-group-item-action">
+                            <i class="bi bi-person-badge me-2 text-primary"></i> Quản lý Sinh viên
+                        </a>
+                        <a asp-page="/Admin/Courses" class="list-group-item list-group-item-action">
+                            <i class="bi bi-journal-text me-2 text-success"></i> Quản lý Khóa học
+                        </a>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

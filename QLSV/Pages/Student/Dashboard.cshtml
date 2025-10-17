@@ -1,0 +1,196 @@
+﻿@page
+@model StudentManagement.Pages.Student.DashboardModel
+@{
+    ViewData["Title"] = "Sinh viên - Trang chủ";
+    string avatarPath = $"/images/students/{Model.Student?.StudentCode}.jpg";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<style>
+    body {
+        background-color: #f8f9fc;
+    }
+
+    .card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        border-radius: 14px;
+        padding: 20px 30px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .avatar-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #6c63ff;
+        color: white;
+        font-size: 42px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid #fff;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .info-label {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .list-group-item {
+        border: none;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .list-group-item:hover {
+        background-color: #f1f3f9;
+        transform: translateX(5px);
+        transition: all 0.2s ease;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+    <!-- Header -->
+    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2><i class="bi bi-person-badge"></i> Thông tin Sinh viên</h2>
+            <p class="mb-0 text-light">Quản lý và theo dõi thông tin học tập của bạn tại đây</p>
+        </div>
+        <div>
+            <span class="me-3 text-light">
+                👋 Xin chào, chúc bạn một ngày học tập hiệu quả!
+            </span>
+            
+        </div>
+    </div>
+
+    @if (Model.Student != null)
+    {
+        <div class="row">
+            <!-- Thông tin cá nhân -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>Thông tin cá nhân</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-4">
+                            @if (System.IO.File.Exists($"wwwroot{avatarPath}"))
+                            {
+                                <img src="@avatarPath" alt="Avatar" class="avatar me-4" />
+                            }
+                            else
+                            {
+                                var initials = string.Join("", Model.Student.FullName
+                                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(n => n[0])).ToUpper();
+
+                                <div class="avatar-placeholder me-4">@initials</div>
+                            }
+
+                            <div>
+                                <h4 class="fw-bold mb-1">@Model.Student.FullName</h4>
+                                <p class="mb-0 text-muted">@Model.Student.StudentCode</p>
+                                <small class="text-secondary">Tham gia từ @Model.Student.EnrollmentDate.ToString("MM/yyyy")</small>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="info-label">📧 Email:</span>
+                                <p>@Model.Student.Email</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="info-label">📱 Số điện thoại:</span>
+                                <p>@Model.Student.Phone</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="info-label">🎂 Ngày sinh:</span>
+                                <p>@Model.Student.DateOfBirth.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="info-label">🏠 Địa chỉ:</span>
+                                <p>@Model.Student.Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu bên phải -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-grid-1x2 me-2"></i>Menu</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a asp-page="/Student/MyCourses" class="list-group-item list-group-item-action">
+                                <i class="bi bi-journal-check text-primary"></i> Khóa học của tôi
+                            </a>
+                            <a asp-page="/Student/Courses" class="list-group-item list-group-item-action">
+                                <i class="bi bi-search text-success"></i> Tìm khóa học mới
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-bar-chart-line me-2"></i>Thống kê</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 bg-light rounded-circle p-3 me-3">
+                                <i class="bi bi-journal-bookmark text-info fs-3"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0 text-muted">Khóa học khả dụng</p>
+                                <h4 class="mb-0 fw-bold text-primary">@Model.AvailableCourses.Count</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning shadow-sm">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            Không tìm thấy thông tin sinh viên. Vui lòng liên hệ quản trị viên.
+        </div>
+    }
+</div>

@@ -1,0 +1,245 @@
+﻿@page
+@model StudentManagement.Pages.Student.CoursesModel
+@{
+    ViewData["Title"] = "Danh sách Khóa học";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<style>
+    body {
+        background-color: #f8f9fc;
+    }
+
+    .course-card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+    .course-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .course-header {
+        background: linear-gradient(135deg, #4e73df, #1cc88a);
+        color: white;
+        padding: 15px 20px;
+    }
+
+    .course-header.inactive {
+        background: linear-gradient(135deg, #858796, #6c757d);
+    }
+
+    .course-header.enrolled {
+        background: linear-gradient(135deg, #36b9cc, #0dcaf0);
+    }
+
+    .course-body {
+        padding: 20px;
+        background-color: white;
+    }
+
+    .badge {
+        font-size: 0.85rem;
+        border-radius: 8px;
+        padding: 6px 10px;
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #e3e6f0;
+        text-align: right;
+    }
+
+    .btn-primary {
+        border-radius: 10px;
+    }
+
+    .btn-secondary {
+        border-radius: 10px;
+    }
+
+    .status-tag {
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+    h5 {
+        font-weight: 600;
+    }
+
+    .info-icon {
+        width: 22px;
+        text-align: center;
+        color: #4e73df;
+    }
+
+    .top-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .top-toolbar .btn {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+    <div class="top-toolbar">
+        <h2 class="fw-bold text-primary"><i class="bi bi-book-half me-2"></i>Danh sách Khóa học</h2>
+        <div>
+            <a asp-page="/Student/Dashboard" class="btn btn-outline-secondary me-2">
+                ← Quay lại
+            </a>
+            <a asp-page="/Student/MyCourses" class="btn btn-success">
+                📚 Khóa học của tôi
+            </a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm">
+            <i class="bi bi-check-circle-fill me-2"></i>@Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm">
+            <i class="bi bi-exclamation-octagon-fill me-2"></i>@Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var item in Model.Courses)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="course-card h-100">
+                    <div class="course-header @(item.IsEnrolled ? "enrolled" : item.Course.IsActive ? "" : "inactive")">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">@item.Course.CourseName</h5>
+                                <small>@item.Course.CourseCode</small>
+                            </div>
+                            @if (item.IsEnrolled)
+                            {
+                                <span class="badge bg-light text-success">✓ Đã đăng ký</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="course-body">
+                        <p class="card-text">@item.Course.Description</p>
+
+                        <div class="mb-2"><i class="bi bi-person-video3 info-icon"></i><strong>Giảng viên:</strong> @item.Course.Instructor</div>
+                        <div class="mb-2"><i class="bi bi-journal-text info-icon"></i><strong>Tín chỉ:</strong> @item.Course.Credits</div>
+                        <div class="mb-2">
+                            <i class="bi bi-people info-icon"></i>
+                            <strong>Số lượng:</strong> @item.Course.EnrolledStudents / @item.Course.MaxStudents
+                            @if (item.Course.EnrolledStudents >= item.Course.MaxStudents)
+                            {
+                                <span class="badge bg-warning text-dark status-tag">Đã đầy</span>
+                            }
+                            else
+                            {
+                                var remaining = item.Course.MaxStudents - item.Course.EnrolledStudents;
+                                <span class="badge bg-info status-tag">Còn @remaining chỗ</span>
+                            }
+                        </div>
+
+                        <div class="mb-2">
+                            <i class="bi bi-calendar3 info-icon"></i>
+                            <strong>Thời gian:</strong><br />
+                            Từ <span class="text-primary">@item.Course.StartDate.ToString("dd/MM/yyyy")</span> 
+                            đến <span class="text-primary">@item.Course.EndDate.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        @if (item.IsCompleted)
+                        {
+                            <div class="alert alert-danger mt-2">
+                                <i class="bi bi-info-circle"></i> Khóa học đã hoàn thành, không thể đăng ký
+                            </div>
+                            <span class="badge bg-secondary">Đã hoàn thành</span>
+                        }
+                        else if (item.IsEnrolled)
+                        {
+                            <span class="badge bg-success">Đã đăng ký</span>
+                        }
+                        else
+                        {
+                            <form method="post" asp-page-handler="Enroll">
+                                <input type="hidden" name="courseId" value="@item.Course.Id" />
+                                <button type="submit" class="btn btn-success mt-2">Đăng ký</button>
+                            </form>
+                        }
+
+
+                       @if (item.IsCompleted)
+                        {
+                            <span class="badge bg-dark mt-2">Đã hoàn thành</span>
+                        }
+                        else if (item.Course.IsActive)
+                        {
+                            @if (item.Course.EnrolledStudents < item.Course.MaxStudents)
+                            {
+                                <span class="badge bg-success mt-2">Đang mở đăng ký</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning mt-2">Đã đủ số lượng</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary mt-2">Đã đóng</span>
+                        }
+
+                    </div>
+
+                    <div class="card-footer">
+                        @if (item.IsEnrolled)
+                        {
+                            <a asp-page="/Student/MyCourses" class="btn btn-success btn-sm disabled">
+                                ✓ Đã đăng ký
+                            </a>
+                        }
+                        else if (!item.IsCompleted && item.Course.IsActive && item.Course.EnrolledStudents < item.Course.MaxStudents)
+
+                        {
+                            <form method="post" asp-page-handler="Enroll" class="d-inline">
+                                <input type="hidden" name="courseId" value="@item.Course.Id" />
+                                <button type="submit" class="btn btn-primary btn-sm"
+                                        onclick="return confirm('Bạn có chắc muốn đăng ký khóa học này?')">
+                                    ➕ Đăng ký ngay
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                🚫 Không thể đăng ký
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.Courses.Count == 0)
+        {
+            <div class="col-12">
+                <div class="alert alert-info shadow-sm text-center p-4">
+                    <i class="bi bi-info-circle-fill fs-4 me-2"></i>
+                    Hiện tại chưa có khóa học nào đang mở đăng ký.
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@page
+@model StudentManagement.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Đăng ký tài khoản</h3>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">@Model.ErrorMessage</div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                    {
+                        <div class="alert alert-success">@Model.SuccessMessage</div>
+                    }
+                    
+                    <form method="post">
+                        <h5 class="mb-3">Thông tin tài khoản</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Username" class="form-label">Tên đăng nhập</label>
+                                <input asp-for="Username" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <input asp-for="Email" type="email" class="form-control" required />
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Password" class="form-label">Mật khẩu</label>
+                                <input asp-for="Password" type="password" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" required />
+                            </div>
+                        </div>
+                        
+                        <h5 class="mb-3 mt-4">Thông tin cá nhân</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="FullName" class="form-label">Họ và tên</label>
+                                <input asp-for="FullName" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label">Số điện thoại</label>
+                                <input asp-for="Phone" class="form-control" required />
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DateOfBirth" class="form-label">Ngày sinh</label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Address" class="form-label">Địa chỉ</label>
+                                <input asp-for="Address" class="form-control" required />
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success">Đăng ký</button>
+                            <a asp-page="/Login" class="btn btn-outline-secondary">Đã có tài khoản? Đăng nhập</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
